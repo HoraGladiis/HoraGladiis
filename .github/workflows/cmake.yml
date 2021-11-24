@@ -21,6 +21,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Install build deps
+      run: sudo apt update && sudo apt install -y build-essential
+
     - name: Install SFML
       run: sudo apt install -y --fix-missing libsfml-dev
 
