@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "DeltaTime.hpp"
+#include "AnimatedSprite.hpp"
 
 class Player
 {

@@ -18,6 +18,10 @@ Player::Player(sf::Vector2f startPosition, std::string spritePath, sf::IntRect s
     this->sprite->setPosition(startPosition);
 
     this->dt = dt;
+
+    AnimatedSprite ass;
+    ass.debug = true;
+    ass.loadFromFolder("./assets/tiles/tmp/");
 }
 
 Player::~Player()

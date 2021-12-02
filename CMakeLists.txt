@@ -42,6 +42,8 @@ FILE(
   "DeltaTime.hpp"
   "GameLevel.cpp"
   "GameLevel.hpp"
+  "AnimatedSprite.hpp"
+  "AnimatedSprite.cpp"
   "Player.cpp"
   "Player.hpp"
   "Game.cpp"

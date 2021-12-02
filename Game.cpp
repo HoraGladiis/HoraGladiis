@@ -50,7 +50,7 @@ void Game::init()
 
     std::cout << BLUE << "> Init tilesets...\n";
 
-    Tileset *baseTilset = new Tileset("./assets/tiles/map/tileset.png", sf::Vector2i(512, 1024), 6);
+    Tileset *baseTilset = new Tileset("./assets/tiles/map/tileset.png", sf::Vector2i(512, 1024), 8);
     tilesets["base"] = baseTilset;
 
     std::cout << "> Done!\n\n"
