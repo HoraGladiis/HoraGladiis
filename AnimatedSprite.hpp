@@ -7,7 +7,8 @@
 class AnimatedSprite
 {
 private:
-    std::vector<sf::Texture> frames;
+    std::map<std::filesystem::path, sf::Texture> textures;
+    std::map<std::filesystem::path, sf::Sprite> frames;
 
 public:
     AnimatedSprite();

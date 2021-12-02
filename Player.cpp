@@ -19,9 +19,18 @@ Player::Player(sf::Vector2f startPosition, std::string spritePath, sf::IntRect s
 
     this->dt = dt;
 
-    AnimatedSprite ass;
-    ass.debug = true;
-    ass.loadFromFolder("./assets/tiles/tmp/");
+    AnimatedSprite as;
+    as.debug = true;
+    bool ok = as.loadFromFolder("./assets/tiles/tmp/");
+
+    if (ok)
+    {
+        std::cout << "Animated sprite: ok" << std::endl;
+    }
+    else
+    {
+        std::cerr << "Animated sprite: error" << std::endl;
+    }
 }
 
 Player::~Player()
