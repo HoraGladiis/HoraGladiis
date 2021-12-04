@@ -71,10 +71,8 @@ void Game::run()
     std::cout << BOLDGREEN << "=== Game run ===\n"
               << RESET;
 
-    Player player(sf::Vector2f(0.0, 0.0),
-                  "./assets/tiles/pointer_iso.png",
-                  sf::IntRect(0, 0, 512, 1024),
-                  &deltaTime);
+    Player player;
+    player.init(sf::Vector2f(0.0, 0.0), sf::IntRect(0, 0, 512, 1024), &deltaTime);
 
     int fps = 0;
 
@@ -109,25 +107,25 @@ void Game::run()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
             // shiftCamera(sf::Vector2f(500.0, 0.0));
-            player.move(sf::Vector2f(cos(30 * M_PI / 180) * playerSpeed, sin(30 * M_PI / 180) * playerSpeed));
+            player.movePlayer(sf::Vector2f(cos(30 * M_PI / 180) * playerSpeed, sin(30 * M_PI / 180) * playerSpeed));
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         {
             // shiftCamera(sf::Vector2f(-500.0, 0.0));
-            player.move(sf::Vector2f(cos(210 * M_PI / 180) * playerSpeed, sin(210 * M_PI / 180) * playerSpeed));
+            player.movePlayer(sf::Vector2f(cos(210 * M_PI / 180) * playerSpeed, sin(210 * M_PI / 180) * playerSpeed));
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
             // shiftCamera(sf::Vector2f(0.0, -500.0));
-            player.move(sf::Vector2f(cos(330 * M_PI / 180) * playerSpeed, sin(330 * M_PI / 180) * playerSpeed));
+            player.movePlayer(sf::Vector2f(cos(330 * M_PI / 180) * playerSpeed, sin(330 * M_PI / 180) * playerSpeed));
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
         {
             // shiftCamera(sf::Vector2f(0.0, 500.0));
-            player.move(sf::Vector2f(cos(150 * M_PI / 180) * playerSpeed, sin(150 * M_PI / 180) * playerSpeed));
+            player.movePlayer(sf::Vector2f(cos(150 * M_PI / 180) * playerSpeed, sin(150 * M_PI / 180) * playerSpeed));
         }
 
         camera.setPosition(player.getPosition());
@@ -135,15 +133,15 @@ void Game::run()
         window->clear();
 
         window->draw(*levels["start"]);
-        window->draw(*player.getSprite());
-
-        dtime_text.setString("Delta time: " + std::to_string(dtime));
-        dtime_text.setPosition(window->mapPixelToCoords(sf::Vector2i(5, 5)));
-        window->draw(dtime_text);
+        window->draw(player);
 
         fps_text.setString("FPS: " + std::to_string(fps));
-        fps_text.setPosition(window->mapPixelToCoords(sf::Vector2i(5, 35)));
+        fps_text.setPosition(window->mapPixelToCoords(sf::Vector2i(5, 5)));
         window->draw(fps_text);
+
+        // dtime_text.setString("Delta time: " + std::to_string((int)(dtime * 1000)));
+        // dtime_text.setPosition(window->mapPixelToCoords(sf::Vector2i(5, 5)));
+        // window->draw(dtime_text);
 
         window->display();
 

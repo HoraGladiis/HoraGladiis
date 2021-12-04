@@ -1,40 +1,44 @@
 #include "Player.hpp"
 
-Player::Player(sf::Vector2f startPosition, std::string spritePath, sf::IntRect spriteRect, DeltaTime *dt)
+void Player::init(sf::Vector2f startPosition, sf::IntRect spriteRect, DeltaTime *dt)
 {
     this->position = startPosition;
-
     this->spriteRect = spriteRect;
-
     this->center.x = this->spriteRect.width / 2.0;
     this->center.y = this->spriteRect.height / 2.0;
 
-    texture.loadFromFile(spritePath);
-
-    this->sprite = new sf::Sprite(this->texture, this->spriteRect);
-
-    this->sprite->setOrigin(this->center);
-
-    this->sprite->setPosition(startPosition);
-
     this->dt = dt;
 
-    AnimatedSprite ass;
-    ass.debug = true;
-    ass.loadFromFolder("./assets/tiles/tmp/");
+    this->animatedSprite = new AnimatedSprite();
+    this->animatedSprite->debug = true;
+    this->animatedSprite->setOrigin(this->center);
+    this->animatedSprite->setPosition(startPosition);
+
+    bool ok = this->animatedSprite->loadFromFolder("./assets/tiles/tmp/");
+    std::cout << std::endl;
+
+    if (ok)
+    {
+        std::cout << "Animated sprite: ok" << std::endl;
+    }
+    else
+    {
+        std::cerr << "Animated sprite: error" << std::endl;
+    }
+
+    this->initialized = true;
 }
 
-Player::~Player()
+sf::Drawable *Player::getSprite()
 {
+    // sf::Texture *t = this->animatedSprite->getFrameTexture(fn++);
+    // this->sprite->setTexture(*t);
+    this->animatedSprite->nextFrame();
+    return this->animatedSprite;
 }
 
-sf::Sprite *Player::getSprite()
-{
-    return this->sprite;
-}
-
-void Player::move(sf::Vector2f shift)
+void Player::movePlayer(sf::Vector2f shift)
 {
     this->position += shift * dt->get();
-    this->sprite->setPosition(this->position);
+    this->animatedSprite->setPosition(this->position);
 }
