@@ -2,14 +2,6 @@
 
 namespace fs = std::filesystem;
 
-AnimatedSprite::AnimatedSprite()
-{
-}
-
-AnimatedSprite::~AnimatedSprite()
-{
-}
-
 bool AnimatedSprite::loadFromFolder(std::string folderPath)
 {
     std::vector<fs::path> filesInDirectory;
@@ -30,41 +22,64 @@ bool AnimatedSprite::loadFromFolder(std::string folderPath)
     if (debug)
         std::cout << "Texture files: "
                   << std::endl;
+
     for (const fs::path &filename : filesInDirectory)
     {
         if (debug)
             std::cout << filename.filename() << "\t";
 
-        sf::Texture texture;
-        if (!texture.loadFromFile(filename))
+        sf::Texture *texture = new sf::Texture();
+        if (!texture->loadFromFile(filename))
         {
             std::cerr << "Can't load file: " << filename << std::endl;
             return false;
         }
 
-        this->textures[filename] = texture;
+        this->textures.push_back(texture);
     }
 
-    if (debug)
-    {
-        std::cout << std::endl
-                  << std::endl
-                  << "Creating sprites:"
-                  << std::endl;
-    }
+    this->frameCount = this->textures.size();
 
-    for (const auto &[key, value] : this->textures)
-    {
-        if (debug)
-            std::cout << key.filename() << "\t";
-
-        sf::Sprite sprite;
-        sprite.setTexture(value);
-    }
-
-    if (debug)
-        std::cout << std::endl
-                  << std::endl;
+    this->goToFrame(0);
 
     return true;
+}
+
+sf::Texture *AnimatedSprite::getFrameTexture(std::size_t index)
+{
+    std::size_t boundedIndex = index % this->frameCount;
+
+    try
+    {
+        return this->textures.at(boundedIndex);
+    }
+    catch (std::out_of_range const &exc)
+    {
+        std::cerr << "Animated sprite error: " << exc.what() << std::endl;
+    }
+
+    return nullptr;
+}
+
+sf::Texture *AnimatedSprite::getFrameTexture()
+{
+    return this->getFrameTexture(this->frameIndex);
+}
+
+void AnimatedSprite::nextFrame()
+{
+    if (this->frameCount == 0)
+        return;
+
+    this->frameIndex = (this->frameIndex + 1) % this->frameCount;
+    this->setTexture(*this->getFrameTexture());
+}
+
+void AnimatedSprite::goToFrame(uint index)
+{
+    if (this->frameCount == 0)
+        return;
+
+    this->frameIndex = index % this->frameCount;
+    this->setTexture(*this->getFrameTexture());
 }
