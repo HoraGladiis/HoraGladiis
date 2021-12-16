@@ -73,6 +73,8 @@ void Game::run()
 
     Player player;
     player.init(sf::Vector2f(0.0, 0.0), sf::IntRect(0, 0, 512, 1024), &deltaTime);
+    std::function<bool(sf::Vector2f)> event = std::bind(&Game::collidePoint, this, std::placeholders::_1);
+    player.bindCollision(event);
 
     int fps = 0;
 

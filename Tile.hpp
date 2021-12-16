@@ -3,6 +3,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <cmath>
 
 class Tile : public sf::Drawable
 {
@@ -13,24 +14,30 @@ private:
     sf::Vector2f postion;
     sf::Sprite sprite;
     sf::IntRect spriteRect;
+    float collisionRadius = 128.0f;
 
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const
     {
-        sf::CircleShape shape(20);
-
+        sf::Color color = this->walkable ? sf::Color::Green : sf::Color::Red;
         sf::Vertex line[] = {
-            sf::Vertex(sf::Vector2f(this->postion.x, this->postion.y - this->spriteRect.height / 8), sf::Color::Green),
-            sf::Vertex(sf::Vector2f(this->postion.x + this->spriteRect.width / 2, this->postion.y), sf::Color::Green),
-            sf::Vertex(sf::Vector2f(this->postion.x + this->spriteRect.width / 2, this->postion.y), sf::Color::Green),
-            sf::Vertex(sf::Vector2f(this->postion.x, this->postion.y + this->spriteRect.height / 8), sf::Color::Green),
-            sf::Vertex(sf::Vector2f(this->postion.x, this->postion.y + this->spriteRect.height / 8), sf::Color::Green),
-            sf::Vertex(sf::Vector2f(this->postion.x - this->spriteRect.width / 2, this->postion.y), sf::Color::Green),
-            sf::Vertex(sf::Vector2f(this->postion.x - this->spriteRect.width / 2, this->postion.y), sf::Color::Green),
-            sf::Vertex(sf::Vector2f(this->postion.x, this->postion.y - this->spriteRect.height / 8), sf::Color::Green),
+            sf::Vertex(sf::Vector2f(this->postion.x, this->postion.y - this->spriteRect.height / 8), color),
+            sf::Vertex(sf::Vector2f(this->postion.x + this->spriteRect.width / 2, this->postion.y), color),
+            sf::Vertex(sf::Vector2f(this->postion.x + this->spriteRect.width / 2, this->postion.y), color),
+            sf::Vertex(sf::Vector2f(this->postion.x, this->postion.y + this->spriteRect.height / 8), color),
+            sf::Vertex(sf::Vector2f(this->postion.x, this->postion.y + this->spriteRect.height / 8), color),
+            sf::Vertex(sf::Vector2f(this->postion.x - this->spriteRect.width / 2, this->postion.y), color),
+            sf::Vertex(sf::Vector2f(this->postion.x - this->spriteRect.width / 2, this->postion.y), color),
+            sf::Vertex(sf::Vector2f(this->postion.x, this->postion.y - this->spriteRect.height / 8), color),
         };
+
+        sf::CircleShape shape(collisionRadius);
+        shape.setFillColor(color);
+        shape.setOrigin(collisionRadius, collisionRadius);
+        shape.setPosition(this->postion);
 
         target.draw(this->sprite, states);
         target.draw(line, 8, sf::Lines, states);
+        // target.draw(shape, states);
     }
 
 public:
@@ -86,6 +93,28 @@ public:
         shape.setPoint(3, sf::Vector2f(0, bounds.height));
 
         return shape;
+    }
+
+    bool collidePoint(sf::Vector2f point)
+    {
+        if (this->walkable)
+            return false;
+
+        float dist = this->distance(point.x, point.y, this->postion.x, this->postion.y);
+
+        if (dist < collisionRadius)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
+    float distance(int x1, int y1, int x2, int y2)
+    {
+        // Calculating distance
+        return std::sqrt(std::pow(x2 - x1, 2) +
+                         std::pow(y2 - y1, 2) * 1.0);
     }
 };
 

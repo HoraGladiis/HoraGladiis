@@ -2,11 +2,10 @@
 
 void Player::init(sf::Vector2f startPosition, sf::IntRect spriteRect, DeltaTime *dt)
 {
-    startPosition.y -= 100.0f;
     this->position = startPosition;
     this->spriteRect = spriteRect;
     this->center.x = this->spriteRect.width / 2.0;
-    this->center.y = this->spriteRect.height / 2.0;
+    this->center.y = this->spriteRect.height / 2.0 + 100;
 
     this->dt = dt;
 
@@ -67,6 +66,13 @@ void Player::movePlayer(sf::Vector2f shift)
         }
     }
 
-    this->position += shift * dt->get();
+    sf::Vector2f newPos = this->position + shift * dt->get();
+
+    std::cout << newPos.x << " | " << newPos.y << std::endl;
+    std::cout << "collision : " << this->collisionHandler(newPos) << std::endl;
+    if (!this->collisionHandler(newPos))
+    {
+        this->position = newPos;
+    }
     this->animations[moveDirection]->setPosition(this->position);
 }

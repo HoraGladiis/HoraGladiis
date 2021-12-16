@@ -1,7 +1,11 @@
+#ifndef PLAYER_HPP
+#define PLAYER_HPP
+
 #include <SFML/Graphics.hpp>
 #include "DeltaTime.hpp"
 #include "AnimatedSprite.hpp"
 #include <unordered_map>
+#include <functional>
 
 enum PlayerAnimations
 {
@@ -28,6 +32,7 @@ private:
     bool initialized = false;
     bool idle = false;
     PlayerAnimations moveDirection;
+    std::function<bool(sf::Vector2f)> collisionHandler;
 
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const
     {
@@ -57,28 +62,10 @@ public:
         this->moveDirection = animation;
     }
 
-    void update()
+    void bindCollision(std::function<bool(sf::Vector2f)> handler)
     {
-        // FIXME: тоже для проверки анимаций
-        if (this->idle)
-        {
-            if (this->moveDirection == PlayerAnimations::GoLeft)
-            {
-                this->setAnimation(PlayerAnimations::IdleLeft);
-            }
-            else if (this->moveDirection == PlayerAnimations::GoRight)
-            {
-                this->moveDirection = PlayerAnimations::IdleRight;
-            }
-            if (this->moveDirection == PlayerAnimations::GoUp)
-            {
-                this->moveDirection = PlayerAnimations::IdleUp;
-            }
-            else if (this->moveDirection == PlayerAnimations::GoDown)
-            {
-                this->moveDirection = PlayerAnimations::IdleDown;
-            }
-        }
-        idle = true;
+        this->collisionHandler = handler;
     }
 };
+
+#endif // PLAYER_HPP
