@@ -26,6 +26,8 @@ private:
     DeltaTime *dt;
     unsigned int fn = 0;
     bool initialized = false;
+    bool idle = false;
+    PlayerAnimations moveDirection;
 
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const
     {
@@ -43,5 +45,34 @@ public:
     {
         return this->position;
     }
-    PlayerAnimations moveDirection;
+
+    void setAnimation(PlayerAnimations animation)
+    {
+        this->moveDirection = animation;
+    }
+
+    void update()
+    {
+        // FIXME: тоже для проверки анимаций
+        if (this->idle)
+        {
+            if (this->moveDirection == PlayerAnimations::GoLeft)
+            {
+                this->setAnimation(PlayerAnimations::IdleLeft);
+            }
+            else if (this->moveDirection == PlayerAnimations::GoRight)
+            {
+                this->moveDirection = PlayerAnimations::IdleRight;
+            }
+            if (this->moveDirection == PlayerAnimations::GoUp)
+            {
+                this->moveDirection = PlayerAnimations::IdleUp;
+            }
+            else if (this->moveDirection == PlayerAnimations::GoDown)
+            {
+                this->moveDirection = PlayerAnimations::IdleDown;
+            }
+        }
+        idle = true;
+    }
 };

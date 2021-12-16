@@ -103,33 +103,46 @@ void Game::run()
     {
         eventHandler.handleEvent(*window);
 
+        // player.update();
+
         float playerSpeed = 300.0;
+        bool moved = false;
+
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
             // shiftCamera(sf::Vector2f(500.0, 0.0));
-            player.moveDirection = PlayerAnimations::GoRight;
+            player.setAnimation(PlayerAnimations::GoRight);
             player.movePlayer(sf::Vector2f(cos(30 * M_PI / 180) * playerSpeed, sin(30 * M_PI / 180) * playerSpeed));
+            moved = true;
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         {
             // shiftCamera(sf::Vector2f(-500.0, 0.0));
-            player.moveDirection = PlayerAnimations::GoLeft;
+            player.setAnimation(PlayerAnimations::GoLeft);
             player.movePlayer(sf::Vector2f(cos(210 * M_PI / 180) * playerSpeed, sin(210 * M_PI / 180) * playerSpeed));
+            moved = true;
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
             // shiftCamera(sf::Vector2f(0.0, -500.0));
-            player.moveDirection = PlayerAnimations::GoUp;
+            player.setAnimation(PlayerAnimations::GoUp);
             player.movePlayer(sf::Vector2f(cos(330 * M_PI / 180) * playerSpeed, sin(330 * M_PI / 180) * playerSpeed));
+            moved = true;
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
         {
             // shiftCamera(sf::Vector2f(0.0, 500.0));
-            player.moveDirection = PlayerAnimations::GoDown;
+            player.setAnimation(PlayerAnimations::GoDown);
             player.movePlayer(sf::Vector2f(cos(150 * M_PI / 180) * playerSpeed, sin(150 * M_PI / 180) * playerSpeed));
+            moved = true;
+        }
+
+        if (!moved)
+        {
+            player.movePlayer(sf::Vector2f(0, 0));
         }
 
         camera.setPosition(player.getPosition());
