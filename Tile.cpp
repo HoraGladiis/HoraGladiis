@@ -2,17 +2,18 @@
 
 void Tile::init(sf::Texture &texture, sf::IntRect rect)
 {
-    this->setTexture(texture);
-    this->setTextureRect(rect);
-    center.x = rect.width / 2.0;
-    center.y = rect.height / 2.0;
-    this->setOrigin(center);
+    this->spriteRect = rect;
+    this->sprite.setTexture(texture);
+    this->sprite.setTextureRect(rect);
+    centerPos.x = rect.width / 2.0;
+    centerPos.y = rect.height / 2.0;
+    this->sprite.setOrigin(centerPos);
 
     this->enabled = true;
 }
 
 sf::Vector2f Tile::getCenter()
 {
-    sf::Vector2f pos = this->getPosition();
+    sf::Vector2f pos = this->sprite.getPosition();
     return pos;
 }
