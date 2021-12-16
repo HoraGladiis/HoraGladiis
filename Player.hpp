@@ -1,15 +1,25 @@
 #include <SFML/Graphics.hpp>
 #include "DeltaTime.hpp"
 #include "AnimatedSprite.hpp"
-#include "Direction.hpp"
 #include <unordered_map>
+
+enum PlayerAnimations
+{
+    GoRight,
+    GoLeft,
+    GoUp,
+    GoDown,
+    IdleRight,
+    IdleLeft,
+    IdleUp,
+    IdleDown
+};
 
 class Player : public sf::Drawable
 {
 private:
     sf::Texture texture;
-    std::unordered_map<Direction, AnimatedSprite *> animations;
-    // AnimatedSprite *animatedSprite;
+    std::unordered_map<PlayerAnimations, AnimatedSprite *> animations;
     sf::Vector2f center;
     sf::Vector2f position;
     sf::IntRect spriteRect;
@@ -23,7 +33,7 @@ private:
         target.draw(*this->animations.at(moveDirection), states);
     }
 
-    bool loadAnimatedSprite(std::string dirPath, Direction direction);
+    bool loadAnimatedSprite(std::string dirPath, PlayerAnimations direction);
 
 public:
     void init(sf::Vector2f startPosition, sf::IntRect spriteRect, DeltaTime *dt);
@@ -33,5 +43,5 @@ public:
     {
         return this->position;
     }
-    Direction moveDirection;
+    PlayerAnimations moveDirection;
 };

@@ -11,7 +11,6 @@
 #include "Tileset.hpp"
 #include "Player.hpp"
 #include "misc.hpp"
-#include "Direction.hpp"
 
 class Game
 {

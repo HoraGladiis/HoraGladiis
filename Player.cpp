@@ -9,17 +9,17 @@ void Player::init(sf::Vector2f startPosition, sf::IntRect spriteRect, DeltaTime 
 
     this->dt = dt;
 
-    this->loadAnimatedSprite("./assets/tiles/player/SE/", Direction::Right);
-    this->loadAnimatedSprite("./assets/tiles/player/NE/", Direction::Up);
-    this->loadAnimatedSprite("./assets/tiles/player/WN/", Direction::Left);
-    this->loadAnimatedSprite("./assets/tiles/player/WS/", Direction::Down);
+    this->loadAnimatedSprite("./assets/tiles/player/SE/", PlayerAnimations::GoRight);
+    this->loadAnimatedSprite("./assets/tiles/player/NE/", PlayerAnimations::GoUp);
+    this->loadAnimatedSprite("./assets/tiles/player/WN/", PlayerAnimations::GoLeft);
+    this->loadAnimatedSprite("./assets/tiles/player/WS/", PlayerAnimations::GoDown);
 
-    this->moveDirection = Direction::Right;
+    this->moveDirection = PlayerAnimations::GoRight;
 
     this->initialized = true;
 }
 
-bool Player::loadAnimatedSprite(std::string dirPath, Direction direction)
+bool Player::loadAnimatedSprite(std::string dirPath, PlayerAnimations direction)
 {
     this->animations[direction] = new AnimatedSprite();
     this->animations[direction]->debug = true;
