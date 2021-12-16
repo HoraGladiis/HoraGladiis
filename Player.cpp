@@ -2,6 +2,7 @@
 
 void Player::init(sf::Vector2f startPosition, sf::IntRect spriteRect, DeltaTime *dt)
 {
+    startPosition.y -= 100.0f;
     this->position = startPosition;
     this->spriteRect = spriteRect;
     this->center.x = this->spriteRect.width / 2.0;

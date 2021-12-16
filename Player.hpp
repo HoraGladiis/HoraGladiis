@@ -33,7 +33,7 @@ private:
     {
         sf::Vertex line[] = {
             sf::Vertex(sf::Vector2f(this->position.x, this->position.y), sf::Color::Red),
-            sf::Vertex(sf::Vector2f(150, 150), sf::Color::Red)};
+            sf::Vertex(sf::Vector2f(0, 0), sf::Color::Red)};
 
         this->animations.at(moveDirection)->nextFrame();
         target.draw(*this->animations.at(moveDirection), states);
