@@ -107,24 +107,28 @@ void Game::run()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
             // shiftCamera(sf::Vector2f(500.0, 0.0));
+            player.moveDirection = Direction::Right;
             player.movePlayer(sf::Vector2f(cos(30 * M_PI / 180) * playerSpeed, sin(30 * M_PI / 180) * playerSpeed));
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         {
             // shiftCamera(sf::Vector2f(-500.0, 0.0));
+            player.moveDirection = Direction::Left;
             player.movePlayer(sf::Vector2f(cos(210 * M_PI / 180) * playerSpeed, sin(210 * M_PI / 180) * playerSpeed));
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
             // shiftCamera(sf::Vector2f(0.0, -500.0));
+            player.moveDirection = Direction::Up;
             player.movePlayer(sf::Vector2f(cos(330 * M_PI / 180) * playerSpeed, sin(330 * M_PI / 180) * playerSpeed));
         }
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
         {
             // shiftCamera(sf::Vector2f(0.0, 500.0));
+            player.moveDirection = Direction::Down;
             player.movePlayer(sf::Vector2f(cos(150 * M_PI / 180) * playerSpeed, sin(150 * M_PI / 180) * playerSpeed));
         }
 

@@ -44,6 +44,7 @@ FILE(
   "GameLevel.hpp"
   "AnimatedSprite.hpp"
   "AnimatedSprite.cpp"
+  "Direction.hpp"
   "Player.cpp"
   "Player.hpp"
   "Game.cpp"

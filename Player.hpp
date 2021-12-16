@@ -1,12 +1,15 @@
 #include <SFML/Graphics.hpp>
 #include "DeltaTime.hpp"
 #include "AnimatedSprite.hpp"
+#include "Direction.hpp"
+#include <unordered_map>
 
 class Player : public sf::Drawable
 {
 private:
     sf::Texture texture;
-    AnimatedSprite *animatedSprite;
+    std::unordered_map<Direction, AnimatedSprite *> animations;
+    // AnimatedSprite *animatedSprite;
     sf::Vector2f center;
     sf::Vector2f position;
     sf::IntRect spriteRect;
@@ -16,9 +19,11 @@ private:
 
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const
     {
-        this->animatedSprite->nextFrame();
-        target.draw(*this->animatedSprite, states);
+        this->animations.at(moveDirection)->nextFrame();
+        target.draw(*this->animations.at(moveDirection), states);
     }
+
+    bool loadAnimatedSprite(std::string dirPath, Direction direction);
 
 public:
     void init(sf::Vector2f startPosition, sf::IntRect spriteRect, DeltaTime *dt);
@@ -28,4 +33,5 @@ public:
     {
         return this->position;
     }
+    Direction moveDirection;
 };
