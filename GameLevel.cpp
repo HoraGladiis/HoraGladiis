@@ -8,14 +8,14 @@ void GameLevel::init(std::string name, Tileset *tileset)
     IsoTileMap map;
     IsoTileMap map2;
 
-    std::vector<std::vector<int>> mapL = {{2, 6, 1, 1},
-                                          {1, 6, 0, 1},
-                                          {1, 6, 0, 1},
-                                          {1, 6, 1, 2}};
+    std::vector<std::vector<int>> mapL = {{9, 8, 8, 8},
+                                          {8, 8, 8, 8},
+                                          {8, 8, 8, 8},
+                                          {8, 8, 8, 8}};
     std::vector<std::vector<int>> mapL2 = {{-1, -1, -1, -1},
-                                           {3, -1, -1, -1},
-                                           {3, -1, -1, -1},
-                                           {7, 5, 5, -1}};
+                                           {-1, 10, -1, -1},
+                                           {-1, -1, -1, -1},
+                                           {-1, -1, 10, -1}};
 
     map.loadTilset(4, 4, tileset, mapL);
     map2.loadTilset(4, 4, tileset, mapL2);

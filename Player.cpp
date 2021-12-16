@@ -5,40 +5,74 @@ void Player::init(sf::Vector2f startPosition, sf::IntRect spriteRect, DeltaTime 
     this->position = startPosition;
     this->spriteRect = spriteRect;
     this->center.x = this->spriteRect.width / 2.0;
-    this->center.y = this->spriteRect.height / 2.0;
+    this->center.y = this->spriteRect.height / 2.0 + 100;
 
     this->dt = dt;
 
-    this->animatedSprite = new AnimatedSprite();
-    this->animatedSprite->debug = true;
-    this->animatedSprite->setOrigin(this->center);
-    this->animatedSprite->setPosition(startPosition);
+    this->loadAnimatedSprite("./assets/tiles/player/SE/", PlayerAnimations::GoRight);
+    this->loadAnimatedSprite("./assets/tiles/player/NE/", PlayerAnimations::GoUp);
+    this->loadAnimatedSprite("./assets/tiles/player/WN/", PlayerAnimations::GoLeft);
+    this->loadAnimatedSprite("./assets/tiles/player/WS/", PlayerAnimations::GoDown);
 
-    bool ok = this->animatedSprite->loadFromFolder("./assets/tiles/tmp/");
-    std::cout << std::endl;
+    this->loadAnimatedSprite("./assets/tiles/player/idelse/", PlayerAnimations::IdleRight);
+    this->loadAnimatedSprite("./assets/tiles/player/idelne/", PlayerAnimations::IdleUp);
+    this->loadAnimatedSprite("./assets/tiles/player/idelwn/", PlayerAnimations::IdleLeft);
+    this->loadAnimatedSprite("./assets/tiles/player/idelws/", PlayerAnimations::IdleDown);
 
-    if (ok)
-    {
-        std::cout << "Animated sprite: ok" << std::endl;
-    }
-    else
-    {
-        std::cerr << "Animated sprite: error" << std::endl;
-    }
+    this->moveDirection = PlayerAnimations::GoRight;
 
     this->initialized = true;
+}
+
+bool Player::loadAnimatedSprite(std::string dirPath, PlayerAnimations direction)
+{
+    this->animations[direction] = new AnimatedSprite();
+    this->animations[direction]->debug = true;
+    this->animations[direction]->setOrigin(this->center);
+    this->animations[direction]->setPosition(this->position);
+    this->animations[direction]->loadFromFolder(dirPath);
+
+    return true;
 }
 
 sf::Drawable *Player::getSprite()
 {
     // sf::Texture *t = this->animatedSprite->getFrameTexture(fn++);
     // this->sprite->setTexture(*t);
-    this->animatedSprite->nextFrame();
-    return this->animatedSprite;
+    this->animations.at(moveDirection)->nextFrame();
+    return this->animations.at(moveDirection);
 }
 
 void Player::movePlayer(sf::Vector2f shift)
 {
-    this->position += shift * dt->get();
-    this->animatedSprite->setPosition(this->position);
+    // FIXME: тестовый idle для анимаций
+    if (shift.x == 0 && shift.y == 0)
+    {
+        if (this->moveDirection == PlayerAnimations::GoLeft)
+        {
+            this->setAnimation(PlayerAnimations::IdleLeft);
+        }
+        else if (this->moveDirection == PlayerAnimations::GoRight)
+        {
+            this->moveDirection = PlayerAnimations::IdleRight;
+        }
+        if (this->moveDirection == PlayerAnimations::GoUp)
+        {
+            this->moveDirection = PlayerAnimations::IdleUp;
+        }
+        else if (this->moveDirection == PlayerAnimations::GoDown)
+        {
+            this->moveDirection = PlayerAnimations::IdleDown;
+        }
+    }
+
+    sf::Vector2f newPos = this->position + shift * dt->get();
+
+    std::cout << newPos.x << " | " << newPos.y << std::endl;
+    std::cout << "collision : " << this->collisionHandler(newPos) << std::endl;
+    if (!this->collisionHandler(newPos))
+    {
+        this->position = newPos;
+    }
+    this->animations[moveDirection]->setPosition(this->position);
 }

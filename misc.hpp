@@ -1,3 +1,8 @@
+#ifndef MISC_HPP
+#define MISC_HPP
+
+#include <cmath>
+
 #define UNUSED(x) (void)(x) // unused marco (to use on unused vars to made them used xD)
 
 /* Terminal colors begin */
@@ -19,3 +24,11 @@
 #define BOLDCYAN "\033[1m\033[36m"    /* Bold Cyan */
 #define BOLDWHITE "\033[1m\033[37m"   /* Bold White */
 /* Terminal colors end */
+
+inline float Align(float value, float size)
+{
+    // Added std::abs to give correct behaviour for negative values
+    return value - std::abs(std::fmod(value, size));
+}
+
+#endif // MISC_HPP

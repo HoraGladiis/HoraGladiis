@@ -23,4 +23,16 @@ private:
 
 public:
     void init(std::string name, Tileset *tileset);
+    bool collidePoint(sf::Vector2f point)
+    {
+        for (IsoTileMap layer : tileLayers)
+        {
+            if (layer.collidePoint(point))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 };

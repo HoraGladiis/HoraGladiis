@@ -50,7 +50,7 @@ void Game::init()
 
     std::cout << BLUE << "> Init tilesets...\n";
 
-    Tileset *baseTilset = new Tileset("./assets/tiles/map/tileset.png", sf::Vector2i(512, 1024), 8);
+    Tileset *baseTilset = new Tileset("./assets/tiles/map/tileset.png", sf::Vector2i(512, 1024), 11);
     tilesets["base"] = baseTilset;
 
     std::cout << "> Done!\n\n"
@@ -73,6 +73,8 @@ void Game::run()
 
     Player player;
     player.init(sf::Vector2f(0.0, 0.0), sf::IntRect(0, 0, 512, 1024), &deltaTime);
+    std::function<bool(sf::Vector2f)> event = std::bind(&Game::collidePoint, this, std::placeholders::_1);
+    player.bindCollision(event);
 
     int fps = 0;
 
@@ -103,29 +105,37 @@ void Game::run()
     {
         eventHandler.handleEvent(*window);
 
+        // player.update();
+
         float playerSpeed = 300.0;
+
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
         {
             // shiftCamera(sf::Vector2f(500.0, 0.0));
+            player.setAnimation(PlayerAnimations::GoRight);
             player.movePlayer(sf::Vector2f(cos(30 * M_PI / 180) * playerSpeed, sin(30 * M_PI / 180) * playerSpeed));
         }
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
         {
             // shiftCamera(sf::Vector2f(-500.0, 0.0));
+            player.setAnimation(PlayerAnimations::GoLeft);
             player.movePlayer(sf::Vector2f(cos(210 * M_PI / 180) * playerSpeed, sin(210 * M_PI / 180) * playerSpeed));
         }
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
         {
             // shiftCamera(sf::Vector2f(0.0, -500.0));
+            player.setAnimation(PlayerAnimations::GoUp);
             player.movePlayer(sf::Vector2f(cos(330 * M_PI / 180) * playerSpeed, sin(330 * M_PI / 180) * playerSpeed));
         }
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
         {
             // shiftCamera(sf::Vector2f(0.0, 500.0));
+            player.setAnimation(PlayerAnimations::GoDown);
             player.movePlayer(sf::Vector2f(cos(150 * M_PI / 180) * playerSpeed, sin(150 * M_PI / 180) * playerSpeed));
+        }
+        else
+        {
+            player.movePlayer(sf::Vector2f(0, 0));
         }
 
         camera.setPosition(player.getPosition());

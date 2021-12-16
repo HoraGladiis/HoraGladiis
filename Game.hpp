@@ -1,3 +1,6 @@
+#ifndef GAME_HPP
+#define GAME_HPP
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <functional>
@@ -11,6 +14,7 @@
 #include "Tileset.hpp"
 #include "Player.hpp"
 #include "misc.hpp"
+#include <functional>
 
 class Game
 {
@@ -72,4 +76,16 @@ public:
         cameraOffset *= dtime;
         camera.move(cameraOffset);
     }
+
+    bool collidePoint(sf::Vector2f point)
+    {
+        // for (const std::pair<const std::string, const GameLevel *> &l : levels)
+        // {
+
+        // }
+
+        return this->levels["start"]->collidePoint(point);
+    }
 };
+
+#endif // GAME_HPP

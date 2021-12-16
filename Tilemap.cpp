@@ -54,7 +54,7 @@ void IsoTileMap::loadTilset(int xSize, int ySize, Tileset *tileset, std::vector<
                         (*tiles)[x][y].enableWalkable();
 
                         tileset->initTile((*tiles)[x][y], map[x][y]);
-                        if (map[x][y] == 1)
+                        if (map[x][y] == 10)
                         {
                             (*tiles)[x][y].disableWalkable();
                         }
