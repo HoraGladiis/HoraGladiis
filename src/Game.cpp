@@ -42,11 +42,18 @@ void Game::init()
     std::function<void(sf::Event)> resizeEvent = std::bind(&Game::resizeWindow, this, std::placeholders::_1);
     eventHandler.addHandler(sf::Event::Resized, resizeEvent);
 
+    std::function<void(sf::Keyboard::Key)> movePlayerCmd = std::bind(&Game::movePlayer, this, std::placeholders::_1);
+    keyboardHandler.addHandler(sf::Keyboard::Key::W, movePlayerCmd);
+    keyboardHandler.addHandler(sf::Keyboard::Key::A, movePlayerCmd);
+    keyboardHandler.addHandler(sf::Keyboard::Key::S, movePlayerCmd);
+    keyboardHandler.addHandler(sf::Keyboard::Key::D, movePlayerCmd);
+
     // std::function<void(sf::Event)> keyEvent = std::bind(&Game::keyPressed, this, std::placeholders::_1);
     // eventHandler.addHandler(sf::Event::KeyPressed, keyEvent);
 
-    std::cout << "> Done!\n\n"
-              << RESET;
+    std::cout
+        << "> Done!\n\n"
+        << RESET;
 
     std::cout << BLUE << "> Init tilesets...\n";
 
@@ -104,6 +111,7 @@ void Game::run()
     while (window->isOpen())
     {
         eventHandler.handleEvent(*window);
+        keyboardHandler.handleKeyboard();
 
         // player.update();
 

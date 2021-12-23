@@ -9,6 +9,7 @@
 #include "Camera.hpp"
 #include "Character.hpp"
 #include "EventHandler.hpp"
+#include "KeyboardHandler.hpp"
 #include "DeltaTime.hpp"
 #include "GameLevel.hpp"
 #include "Tileset.hpp"
@@ -22,6 +23,7 @@ private:
     sf::RenderWindow *window;
     Camera camera;
     EventHandler eventHandler;
+    KeyboardHandler keyboardHandler;
     DeltaTime deltaTime;
     float dtime = 0;
 
@@ -85,6 +87,11 @@ public:
         // }
 
         return this->levels["start"]->collidePoint(point);
+    }
+
+    void movePlayer(sf::Keyboard::Key k)
+    {
+        std::cout << "Keypress: " << k << std::endl;
     }
 };
 
