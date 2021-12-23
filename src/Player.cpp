@@ -68,8 +68,8 @@ void Player::movePlayer(sf::Vector2f shift)
 
     sf::Vector2f newPos = this->position + shift * dt->get();
 
-    std::cout << newPos.x << " | " << newPos.y << std::endl;
-    std::cout << "collision : " << this->collisionHandler(newPos) << std::endl;
+    // std::cout << newPos.x << " | " << newPos.y << std::endl;
+    // std::cout << "collision : " << this->collisionHandler(newPos) << std::endl;
     if (!this->collisionHandler(newPos))
     {
         this->position = newPos;
