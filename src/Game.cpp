@@ -52,6 +52,9 @@ void Game::init()
     keyboardHandler.addHandler(sf::Keyboard::Key::Down, movePlayerCmd);
     keyboardHandler.addHandler(sf::Keyboard::Key::Right, movePlayerCmd);
 
+    // std::function<void(sf::Keyboard::Key)> movePlayerCmd = std::bind(&Game::openMainMenu, this, std::placeholders::_1);
+    // keyboardHandler.addHandler(sf::Keyboard::Key::W, movePlayerCmd);
+
     // std::function<void(sf::Event)> keyEvent = std::bind(&Game::keyPressed, this, std::placeholders::_1);
     // eventHandler.addHandler(sf::Event::KeyPressed, keyEvent);
 
@@ -80,6 +83,8 @@ void Game::init()
     this->_player = new Player();
     std::cout << "> Done!\n\n"
               << RESET;
+
+    this->_mainMenu = new MainMenu("Главное меню");
 }
 
 void Game::run()

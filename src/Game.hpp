@@ -14,6 +14,7 @@
 #include "GameLevel.hpp"
 #include "Tileset.hpp"
 #include "Player.hpp"
+#include "Menus/MainMenu.hpp"
 #include "misc.hpp"
 #include <functional>
 
@@ -31,6 +32,9 @@ private:
     std::map<std::string, GameLevel *> levels;
 
     Player *_player;
+    MainMenu *_mainMenu;
+
+    bool gameRunning = false;
 
 public:
     Game(std::string title, sf::Vector2i initSize, int fpsLimit, bool enableVsync);
@@ -124,6 +128,10 @@ public:
         default:
             this->_player->movePlayer(sf::Vector2f(0, 0));
         }
+    }
+
+    void openMainMenu(sf::Keyboard::Key k)
+    {
     }
 };
 
