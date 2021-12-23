@@ -26,6 +26,8 @@ find_package(SFML 2.5.1 COMPONENTS graphics window system REQUIRED)
 FILE(
   GLOB
   SOURCES
+  "Menus/MainMenu.cpp"
+  "Menus/MainMenu.hpp"
   "Tile.cpp"
   "Tile.hpp"
   "Tileset.cpp"
