@@ -46,7 +46,7 @@ sf::Drawable *Player::getSprite()
 void Player::movePlayer(sf::Vector2f shift)
 {
     // FIXME: тестовый idle для анимаций
-    if (shift.x == 0 && shift.y == 0)
+    if ((shift.x == 0 && shift.y == 0))
     {
         if (this->moveDirection == PlayerAnimations::GoLeft)
         {
@@ -68,11 +68,17 @@ void Player::movePlayer(sf::Vector2f shift)
 
     sf::Vector2f newPos = this->position + shift * dt->get();
 
-    std::cout << newPos.x << " | " << newPos.y << std::endl;
-    std::cout << "collision : " << this->collisionHandler(newPos) << std::endl;
+    // std::cout << newPos.x << " | " << newPos.y << std::endl;
+    // std::cout << "collision : " << this->collisionHandler(newPos) << std::endl;
     if (!this->collisionHandler(newPos))
     {
         this->position = newPos;
     }
     this->animations[moveDirection]->setPosition(this->position);
+    idle = false;
+}
+
+void Player::triggerLoop()
+{
+    idle = true;
 }

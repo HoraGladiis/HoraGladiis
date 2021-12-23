@@ -9,6 +9,7 @@
 #include "Camera.hpp"
 #include "Character.hpp"
 #include "EventHandler.hpp"
+#include "KeyboardHandler.hpp"
 #include "DeltaTime.hpp"
 #include "GameLevel.hpp"
 #include "Tileset.hpp"
@@ -22,11 +23,14 @@ private:
     sf::RenderWindow *window;
     Camera camera;
     EventHandler eventHandler;
+    KeyboardHandler keyboardHandler;
     DeltaTime deltaTime;
     float dtime = 0;
 
     std::map<std::string, Tileset *> tilesets;
     std::map<std::string, GameLevel *> levels;
+
+    Player *_player;
 
 public:
     Game(std::string title, sf::Vector2i initSize, int fpsLimit, bool enableVsync);
@@ -85,6 +89,41 @@ public:
         // }
 
         return this->levels["start"]->collidePoint(point);
+    }
+
+    void movePlayer(sf::Keyboard::Key k)
+    {
+        float playerSpeed = 300.0;
+
+        switch (k)
+        {
+        case sf::Keyboard::D:
+        case sf::Keyboard::Right:
+            this->_player->setAnimation(PlayerAnimations::GoRight);
+            this->_player->movePlayer(sf::Vector2f(cos(30 * M_PI / 180) * playerSpeed, sin(30 * M_PI / 180) * playerSpeed));
+            break;
+
+        case sf::Keyboard::A:
+        case sf::Keyboard::Left:
+            this->_player->setAnimation(PlayerAnimations::GoLeft);
+            this->_player->movePlayer(sf::Vector2f(cos(210 * M_PI / 180) * playerSpeed, sin(210 * M_PI / 180) * playerSpeed));
+            break;
+
+        case sf::Keyboard::W:
+        case sf::Keyboard::Up:
+            this->_player->setAnimation(PlayerAnimations::GoUp);
+            this->_player->movePlayer(sf::Vector2f(cos(330 * M_PI / 180) * playerSpeed, sin(330 * M_PI / 180) * playerSpeed));
+            break;
+
+        case sf::Keyboard::S:
+        case sf::Keyboard::Down:
+            this->_player->setAnimation(PlayerAnimations::GoDown);
+            this->_player->movePlayer(sf::Vector2f(cos(150 * M_PI / 180) * playerSpeed, sin(150 * M_PI / 180) * playerSpeed));
+            break;
+
+        default:
+            this->_player->movePlayer(sf::Vector2f(0, 0));
+        }
     }
 };
 

@@ -42,11 +42,22 @@ void Game::init()
     std::function<void(sf::Event)> resizeEvent = std::bind(&Game::resizeWindow, this, std::placeholders::_1);
     eventHandler.addHandler(sf::Event::Resized, resizeEvent);
 
+    std::function<void(sf::Keyboard::Key)> movePlayerCmd = std::bind(&Game::movePlayer, this, std::placeholders::_1);
+    keyboardHandler.addHandler(sf::Keyboard::Key::W, movePlayerCmd);
+    keyboardHandler.addHandler(sf::Keyboard::Key::A, movePlayerCmd);
+    keyboardHandler.addHandler(sf::Keyboard::Key::S, movePlayerCmd);
+    keyboardHandler.addHandler(sf::Keyboard::Key::D, movePlayerCmd);
+    keyboardHandler.addHandler(sf::Keyboard::Key::Up, movePlayerCmd);
+    keyboardHandler.addHandler(sf::Keyboard::Key::Left, movePlayerCmd);
+    keyboardHandler.addHandler(sf::Keyboard::Key::Down, movePlayerCmd);
+    keyboardHandler.addHandler(sf::Keyboard::Key::Right, movePlayerCmd);
+
     // std::function<void(sf::Event)> keyEvent = std::bind(&Game::keyPressed, this, std::placeholders::_1);
     // eventHandler.addHandler(sf::Event::KeyPressed, keyEvent);
 
-    std::cout << "> Done!\n\n"
-              << RESET;
+    std::cout
+        << "> Done!\n\n"
+        << RESET;
 
     std::cout << BLUE << "> Init tilesets...\n";
 
@@ -64,6 +75,11 @@ void Game::init()
 
     std::cout << "> Done!\n\n"
               << RESET;
+
+    std::cout << GREEN << "Create Player...\n";
+    this->_player = new Player();
+    std::cout << "> Done!\n\n"
+              << RESET;
 }
 
 void Game::run()
@@ -71,10 +87,9 @@ void Game::run()
     std::cout << BOLDGREEN << "=== Game run ===\n"
               << RESET;
 
-    Player player;
-    player.init(sf::Vector2f(0.0, 0.0), sf::IntRect(0, 0, 512, 1024), &deltaTime);
+    this->_player->init(sf::Vector2f(0.0, 0.0), sf::IntRect(0, 0, 512, 1024), &deltaTime);
     std::function<bool(sf::Vector2f)> event = std::bind(&Game::collidePoint, this, std::placeholders::_1);
-    player.bindCollision(event);
+    this->_player->bindCollision(event);
 
     int fps = 0;
 
@@ -103,47 +118,22 @@ void Game::run()
 
     while (window->isOpen())
     {
+        this->_player->triggerLoop();
         eventHandler.handleEvent(*window);
+        keyboardHandler.handleKeyboard();
 
-        // player.update();
-
-        float playerSpeed = 300.0;
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+        if (this->_player->isIdle())
         {
-            // shiftCamera(sf::Vector2f(500.0, 0.0));
-            player.setAnimation(PlayerAnimations::GoRight);
-            player.movePlayer(sf::Vector2f(cos(30 * M_PI / 180) * playerSpeed, sin(30 * M_PI / 180) * playerSpeed));
-        }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
-        {
-            // shiftCamera(sf::Vector2f(-500.0, 0.0));
-            player.setAnimation(PlayerAnimations::GoLeft);
-            player.movePlayer(sf::Vector2f(cos(210 * M_PI / 180) * playerSpeed, sin(210 * M_PI / 180) * playerSpeed));
-        }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-        {
-            // shiftCamera(sf::Vector2f(0.0, -500.0));
-            player.setAnimation(PlayerAnimations::GoUp);
-            player.movePlayer(sf::Vector2f(cos(330 * M_PI / 180) * playerSpeed, sin(330 * M_PI / 180) * playerSpeed));
-        }
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-        {
-            // shiftCamera(sf::Vector2f(0.0, 500.0));
-            player.setAnimation(PlayerAnimations::GoDown);
-            player.movePlayer(sf::Vector2f(cos(150 * M_PI / 180) * playerSpeed, sin(150 * M_PI / 180) * playerSpeed));
-        }
-        else
-        {
-            player.movePlayer(sf::Vector2f(0, 0));
+            // FIXME: фикс бага анимации
+            this->_player->movePlayer(sf::Vector2f(0.0, 0.0));
         }
 
-        camera.setPosition(player.getPosition());
+        camera.setPosition(this->_player->getPosition());
 
         window->clear();
 
         window->draw(*levels["start"]);
-        window->draw(player);
+        window->draw(*this->_player);
 
         fps_text.setString("FPS: " + std::to_string(fps));
         fps_text.setPosition(window->mapPixelToCoords(sf::Vector2i(5, 5)));

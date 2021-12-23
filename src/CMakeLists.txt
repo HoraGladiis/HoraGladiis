@@ -38,6 +38,8 @@ FILE(
   "Camera.hpp"
   "EventHandler.cpp"
   "EventHandler.hpp"
+  "KeyboardHandler.cpp"
+  "KeyboardHandler.hpp"
   "DeltaTime.cpp"
   "DeltaTime.hpp"
   "GameLevel.cpp"

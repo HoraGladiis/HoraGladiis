@@ -52,6 +52,12 @@ public:
     void init(sf::Vector2f startPosition, sf::IntRect spriteRect, DeltaTime *dt);
     sf::Drawable *getSprite();
     void movePlayer(sf::Vector2f shift);
+    void triggerLoop();
+    bool isIdle()
+    {
+        return this->idle;
+    }
+
     sf::Vector2f getPosition()
     {
         return this->position;
