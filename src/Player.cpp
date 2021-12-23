@@ -46,7 +46,7 @@ sf::Drawable *Player::getSprite()
 void Player::movePlayer(sf::Vector2f shift)
 {
     // FIXME: тестовый idle для анимаций
-    if (shift.x == 0 && shift.y == 0)
+    if ((shift.x == 0 && shift.y == 0))
     {
         if (this->moveDirection == PlayerAnimations::GoLeft)
         {
@@ -75,4 +75,10 @@ void Player::movePlayer(sf::Vector2f shift)
         this->position = newPos;
     }
     this->animations[moveDirection]->setPosition(this->position);
+    idle = false;
+}
+
+void Player::triggerLoop()
+{
+    idle = true;
 }
