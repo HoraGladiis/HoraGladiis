@@ -11,7 +11,28 @@ TEST_CASE("Testing collidePoint")
     tile.init(texture, sf::IntRect(0, 0, 10, 10));
     tile.setPosition(0.0, 0.0);
     tile.enable();
-    tile.enableWalkable();
+    tile.disableWalkable(); // тайл не доступен для перемещения
 
-    CHECK_FALSE(tile.collidePoint(sf::Vector2f(4.0, 2.0)));
+    CHECK(tile.collidePoint(sf::Vector2f(0.0, 0.0)));             // внутри collisionRadius
+    CHECK(tile.collidePoint(sf::Vector2f(127.0, 0.0)));           // внутри collisionRadius
+    CHECK(tile.collidePoint(sf::Vector2f(-40.0, 40.0)));          // внутри collisionRadius
+    CHECK(tile.collidePoint(sf::Vector2f(-40.0, -40.0)));         // внутри collisionRadius
+    CHECK(tile.collidePoint(sf::Vector2f(40.0, -40.0)));          // внутри collisionRadius
+    CHECK(tile.collidePoint(sf::Vector2f(40.0, 40.0)));           // внутри collisionRadius
+    CHECK_FALSE(tile.collidePoint(sf::Vector2f(128.0, 128.0)));   // вне collisionRadius
+    CHECK_FALSE(tile.collidePoint(sf::Vector2f(-128.0, -128.0))); // вне collisionRadius
+    CHECK_FALSE(tile.collidePoint(sf::Vector2f(128.0, -128.0)));  // вне collisionRadius
+    CHECK_FALSE(tile.collidePoint(sf::Vector2f(-128.0, 128.0)));  // вне collisionRadius
+
+    tile.enableWalkable();                                        // теперь тайл доступен для пермещения
+    CHECK_FALSE(tile.collidePoint(sf::Vector2f(0.0, 0.0)));       // внутри collisionRadius
+    CHECK_FALSE(tile.collidePoint(sf::Vector2f(127.0, 0.0)));     // внутри collisionRadius
+    CHECK_FALSE(tile.collidePoint(sf::Vector2f(-40.0, 40.0)));    // внутри collisionRadius
+    CHECK_FALSE(tile.collidePoint(sf::Vector2f(-40.0, -40.0)));   // внутри collisionRadius
+    CHECK_FALSE(tile.collidePoint(sf::Vector2f(40.0, -40.0)));    // внутри collisionRadius
+    CHECK_FALSE(tile.collidePoint(sf::Vector2f(40.0, 40.0)));     // внутри collisionRadius
+    CHECK_FALSE(tile.collidePoint(sf::Vector2f(128.0, 128.0)));   // вне collisionRadius
+    CHECK_FALSE(tile.collidePoint(sf::Vector2f(-128.0, -128.0))); // вне collisionRadius
+    CHECK_FALSE(tile.collidePoint(sf::Vector2f(128.0, -128.0)));  // вне collisionRadius
+    CHECK_FALSE(tile.collidePoint(sf::Vector2f(-128.0, 128.0)));  // вне collisionRadius
 }
