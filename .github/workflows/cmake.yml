@@ -31,7 +31,7 @@ jobs:
       run: sudo apt install -y --fix-missing libsfml-dev
 
     - name: Install TGUI
-      run: sudo add-apt-repository -y ppa:texus/tgui && sudo apt update && sudo apt install -y libtgui-0.10-dev
+      run: sudo add-apt-repository -y ppa:texus/tgui && sudo apt update && sudo apt install -y libglfw3-dev && sudo apt install -y libtgui-0.10-dev
 
     - name: Install Doctest
       run: sudo apt install -y --fix-missing doctest-dev
