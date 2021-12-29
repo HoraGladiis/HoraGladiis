@@ -1,0 +1,18 @@
+name: CMake
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+    
+jobs:
+  cpp_style_check:
+    runs-on: ubuntu-latest
+    name: Check C++ Style
+    steps:
+    - name: Checkout this commit
+      uses: actions/checkout@v2
+    - name: Run style checks
+      uses: coleaeason/actions-uncrustify@v1
+      
