@@ -20,6 +20,9 @@ set(CMAKE_CXX_FLAGS "-Wall -Wextra")
 set(CMAKE_CXX_FLAGS_DEBUG "-g")
 set(CMAKE_CXX_FLAGS_RELEASE "-O3")
 
+set(TGUI_BACKEND "SFML_GRAPHICS")
+set(TGUI_SHARED_LIBS "FALSE")
+
 # Find SFML shared libraries
 find_package(SFML 2.5.1 COMPONENTS graphics window system REQUIRED)
 
@@ -62,4 +65,4 @@ FILE(
 )
 
 add_executable(HoraGladiis ${SOURCES})
-target_link_libraries(HoraGladiis sfml-graphics sfml-window sfml-system)
+target_link_libraries(HoraGladiis sfml-graphics sfml-window sfml-system tgui)
