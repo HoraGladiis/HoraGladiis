@@ -8,17 +8,28 @@ void GameLevel::init(std::string name, Tileset *tileset)
     IsoTileMap map;
     IsoTileMap map2;
 
-    std::vector<std::vector<int>> mapL = {{9, 8, 8, 8},
-                                          {8, 8, 8, 8},
-                                          {8, 8, 8, 8},
-                                          {8, 8, 8, 8}};
-    std::vector<std::vector<int>> mapL2 = {{-1, -1, -1, -1},
-                                           {-1, 10, -1, -1},
-                                           {-1, -1, -1, -1},
-                                           {-1, -1, 10, -1}};
+    std::vector<std::vector<int>> mapL = {
+        {9, 8, 8, 8, 8, 8, 8, 8},
+        {9, 8, 8, 8, 8, 8, 8, 8},
+        {9, 6, 6, 6, 6, 6, 8, 8},
+        {8, 8, 9, 1, 1, 9, 8, 8},
+        {8, 8, 9, 1, 1, 9, 9, 9},
+        {9, 9, 9, 1, 1, 9, 2, 9},
+        {2, 2, 9, 1, 1, 9, 2, 9},
+        {2, 2, 9, 9, 9, 9, 9, 9}};
+    std::vector<std::vector<int>> mapL2 = {
+        {-1, -1, 10, -1, -1, -1, -1, -1},
+        {-1, -1, 10, 10, -1, -1, -1, -1},
+        {-1, -1, -1, -1, -1, -1, -1, -1},
+        {-1, -1, -1, -1, -1, -1, -1, -1},
+        {10, 10, -1, -1, -1, -1, -1, -1},
+        {-1, -1, -1, -1, -1, -1, -1, -1},
+        {-1, -1, -1, -1, -1, -1, -1, -1},
+        {-1, -1, -1, -1, -1, -1, -1, -1},
+    };
 
-    map.loadTilset(4, 4, tileset, mapL);
-    map2.loadTilset(4, 4, tileset, mapL2);
+    map.loadTilset(8, 8, tileset, mapL);
+    map2.loadTilset(8, 8, tileset, mapL2);
 
     tileLayers.push_back(map);
     tileLayers.push_back(map2);
