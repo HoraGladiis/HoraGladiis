@@ -55,6 +55,7 @@ public:
     GameExitStatus exitStatus = GameExitStatus::Default;
 
     tgui::Gui *gui;
+    tgui::Gui *inventoryGui;
 
     void init();
     void run();

@@ -19,6 +19,10 @@ void EventHandler::handleEvent(sf::RenderWindow &window)
         {
             this->gui->handleEvent(event);
         }
+        if (this->invgui)
+        {
+            this->invgui->handleEvent(event);
+        }
 
         for (std::function<void(sf::Event)> handler : this->_handlers[event.type])
         {

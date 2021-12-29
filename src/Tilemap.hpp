@@ -28,6 +28,7 @@ private:
 public:
     void load(int xSize, int ySize, sf::Texture &texture, float tileW, float tileH);
     void loadTilset(int xSize, int ySize, Tileset *tilset, std::vector<std::vector<int>> &map);
+
     bool collidePoint(sf::Vector2f point)
     {
         for (int y = 0; y < mapYSize; y++)
