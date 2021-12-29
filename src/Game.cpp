@@ -89,8 +89,10 @@ void Game::init()
 
     this->_mainMenu = new MainMenu("Главное меню");
     this->gui = new tgui::Gui(*this->window);
+    this->inventoryGui = new tgui::Gui(*this->window);
 
     this->eventHandler.setGui(this->gui);
+    this->eventHandler.setInvGui(this->inventoryGui);
 
     auto startBtn = tgui::Button::create("Новая игра");
     startBtn->setOrigin(sf::Vector2f(0.5, 0.5));
@@ -120,10 +122,59 @@ void Game::init()
     exitBtn->setTextSize(50);
     exitBtn->onClick(&Game::exitBtn, this);
 
+    auto inventorySlot1 = tgui::BitmapButton::create();
+    inventorySlot1->setImage("./assets/ui/active_slot_64x64.png");
+    inventorySlot1->setOrigin(sf::Vector2f(0.5, 0.5));
+    inventorySlot1->setPosition({"50%-120", "100%-64"});
+    auto inventorySlot2 = tgui::BitmapButton::create();
+    inventorySlot2->setImage("./assets/ui/active_slot_64x64.png");
+    inventorySlot2->setOrigin(sf::Vector2f(0.5, 0.5));
+    inventorySlot2->setPosition({"50%-40", "100%-64"});
+    auto inventorySlot3 = tgui::BitmapButton::create();
+    inventorySlot3->setImage("./assets/ui/active_slot_64x64.png");
+    inventorySlot3->setOrigin(sf::Vector2f(0.5, 0.5));
+    inventorySlot3->setPosition({"50%+40", "100%-64"});
+    auto inventorySlot4 = tgui::BitmapButton::create();
+    inventorySlot4->setImage("./assets/ui/active_slot_64x64.png");
+    inventorySlot4->setOrigin(sf::Vector2f(0.5, 0.5));
+    inventorySlot4->setPosition({"50%+120", "100%-64"});
+
+    auto inventoryBtn = tgui::BitmapButton::create();
+    inventoryBtn->setImage("./assets/ui/backpack_64x64.png");
+    inventoryBtn->setOrigin(sf::Vector2f(0.5, 0.5));
+    inventoryBtn->setPosition({"50%+180", "100%-64"});
+
+    auto inventoryLock1 = tgui::BitmapButton::create();
+    inventoryLock1->setImage("./assets/ui/lock_64x_64.png");
+    inventoryLock1->setOrigin(sf::Vector2f(0.5, 0.5));
+    inventoryLock1->setPosition({"50%-120", "100%-64"});
+    auto inventoryLock2 = tgui::BitmapButton::create();
+    inventoryLock2->setImage("./assets/ui/lock_64x_64.png");
+    inventoryLock2->setOrigin(sf::Vector2f(0.5, 0.5));
+    inventoryLock2->setPosition({"50%-40", "100%-64"});
+    auto inventoryLock3 = tgui::BitmapButton::create();
+    inventoryLock3->setImage("./assets/ui/lock_64x_64.png");
+    inventoryLock3->setOrigin(sf::Vector2f(0.5, 0.5));
+    inventoryLock3->setPosition({"50%+40", "100%-64"});
+    auto inventoryLock4 = tgui::BitmapButton::create();
+    inventoryLock4->setImage("./assets/ui/lock_64x_64.png");
+    inventoryLock4->setOrigin(sf::Vector2f(0.5, 0.5));
+    inventoryLock4->setPosition({"50%+120", "100%-64"});
+
     this->gui->add(startBtn);
     this->gui->add(continueBtn);
     this->gui->add(settingsBtn);
     this->gui->add(exitBtn);
+
+    this->inventoryGui->add(inventorySlot1);
+    this->inventoryGui->add(inventorySlot2);
+    this->inventoryGui->add(inventorySlot3);
+    this->inventoryGui->add(inventorySlot4);
+    this->inventoryGui->add(inventoryLock1);
+    this->inventoryGui->add(inventoryLock2);
+    this->inventoryGui->add(inventoryLock3);
+    this->inventoryGui->add(inventoryLock4);
+    this->inventoryGui->add(inventoryBtn);
 }
 
 void Game::run()
@@ -196,7 +247,13 @@ void Game::run()
         // window->draw(dtime_text);
 
         if (!this->gameRunning)
+        {
             this->gui->draw();
+        }
+        else
+        {
+            this->inventoryGui->draw();
+        }
 
         window->display();
 

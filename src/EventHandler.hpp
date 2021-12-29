@@ -10,6 +10,7 @@ class EventHandler
 private:
     std::unordered_map<sf::Event::EventType, std::vector<std::function<void(sf::Event)>>> _handlers;
     tgui::Gui *gui = nullptr;
+    tgui::Gui *invgui = nullptr;
 
 public:
     EventHandler();
@@ -19,5 +20,10 @@ public:
     void setGui(tgui::Gui *gui)
     {
         this->gui = gui;
+    }
+
+    void setInvGui(tgui::Gui *gui)
+    {
+        this->invgui = gui;
     }
 };
