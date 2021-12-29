@@ -17,6 +17,17 @@
 #include "Menus/MainMenu.hpp"
 #include "misc.hpp"
 #include <functional>
+#include <TGUI/TGUI.hpp>
+#include <TGUI/Backend/SFML-Graphics.hpp>
+
+#define THEME_CONFIG_FILE "./assets/kenney-5/kenney.style"
+
+enum class GameExitStatus
+{
+    NewGame,
+    JustExit,
+    Default
+};
 
 class Game
 {
@@ -35,10 +46,15 @@ private:
     MainMenu *_mainMenu;
 
     bool gameRunning = false;
+    bool firstRun = true;
 
 public:
     Game(std::string title, sf::Vector2i initSize, int fpsLimit, bool enableVsync);
     ~Game();
+
+    GameExitStatus exitStatus = GameExitStatus::Default;
+
+    tgui::Gui *gui;
 
     void init();
     void run();
@@ -52,6 +68,48 @@ public:
     void resizeWindow(sf::Event event)
     {
         camera.resizeCamera(event);
+    }
+
+    void newGame()
+    {
+        if (this->firstRun)
+        {
+            this->firstRun = false;
+            this->gameRunning = true;
+            return;
+        }
+
+        this->exitStatus = GameExitStatus::NewGame;
+        window->clear(sf::Color(111, 168, 54));
+        window->display();
+        window->close();
+    }
+
+    void settingsMenu()
+    {
+        std::cout << RED << "Не реализовано!!!" << RESET << std::endl;
+    }
+
+    void continueBtn()
+    {
+        if (this->firstRun)
+        {
+            std::cout << RED << "Игра не начата" << RESET << std::endl;
+            return;
+        }
+        gameRunning = true;
+    }
+
+    void exitBtn()
+    {
+        this->exitStatus = GameExitStatus::JustExit;
+        window->close();
+    }
+
+    void exitToMenu(sf::Keyboard::Key k)
+    {
+        UNUSED(k);
+        this->gameRunning = false;
     }
 
     void keyPressed(sf::Event event)
@@ -130,9 +188,9 @@ public:
         }
     }
 
-    void openMainMenu(sf::Keyboard::Key k)
-    {
-    }
+    // void openMainMenu(sf::Keyboard::Key k)
+    // {
+    // }
 };
 
 #endif // GAME_HPP

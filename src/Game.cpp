@@ -52,6 +52,9 @@ void Game::init()
     keyboardHandler.addHandler(sf::Keyboard::Key::Down, movePlayerCmd);
     keyboardHandler.addHandler(sf::Keyboard::Key::Right, movePlayerCmd);
 
+    std::function<void(sf::Keyboard::Key)> exitToMenuEvent = std::bind(&Game::exitToMenu, this, std::placeholders::_1);
+    keyboardHandler.addHandler(sf::Keyboard::Key::Escape, exitToMenuEvent);
+
     // std::function<void(sf::Keyboard::Key)> movePlayerCmd = std::bind(&Game::openMainMenu, this, std::placeholders::_1);
     // keyboardHandler.addHandler(sf::Keyboard::Key::W, movePlayerCmd);
 
@@ -85,6 +88,42 @@ void Game::init()
               << RESET;
 
     this->_mainMenu = new MainMenu("Главное меню");
+    this->gui = new tgui::Gui(*this->window);
+
+    this->eventHandler.setGui(this->gui);
+
+    auto startBtn = tgui::Button::create("Новая игра");
+    startBtn->setOrigin(sf::Vector2f(0.5, 0.5));
+    startBtn->setSize({400, 100});
+    startBtn->setPosition({"50%", 100});
+    startBtn->setTextSize(50);
+    startBtn->onClick(&Game::newGame, this);
+
+    auto continueBtn = tgui::Button::create("Продолжить");
+    continueBtn->setOrigin(sf::Vector2f(0.5, 0.5));
+    continueBtn->setSize({400, 100});
+    continueBtn->setPosition({"50%", 220});
+    continueBtn->setTextSize(50);
+    continueBtn->onClick(&Game::continueBtn, this);
+
+    auto settingsBtn = tgui::Button::create("Настройки");
+    settingsBtn->setOrigin(sf::Vector2f(0.5, 0.5));
+    settingsBtn->setSize({400, 100});
+    settingsBtn->setPosition({"50%", 340});
+    settingsBtn->setTextSize(50);
+    settingsBtn->onClick(&Game::settingsMenu, this);
+
+    auto exitBtn = tgui::Button::create("Выйти из игры");
+    exitBtn->setOrigin(sf::Vector2f(0.5, 0.5));
+    exitBtn->setSize({400, 100});
+    exitBtn->setPosition({"50%", 460});
+    exitBtn->setTextSize(50);
+    exitBtn->onClick(&Game::exitBtn, this);
+
+    this->gui->add(startBtn);
+    this->gui->add(continueBtn);
+    this->gui->add(settingsBtn);
+    this->gui->add(exitBtn);
 }
 
 void Game::run()
@@ -127,6 +166,14 @@ void Game::run()
         eventHandler.handleEvent(*window);
         keyboardHandler.handleKeyboard();
 
+        if (!this->gameRunning)
+        {
+            window->clear(sf::Color(30, 86, 99));
+            this->gui->draw();
+            window->display();
+            continue;
+        }
+
         if (this->_player->isIdle())
         {
             // FIXME: фикс бага анимации
@@ -147,6 +194,9 @@ void Game::run()
         // dtime_text.setString("Delta time: " + std::to_string((int)(dtime * 1000)));
         // dtime_text.setPosition(window->mapPixelToCoords(sf::Vector2i(5, 5)));
         // window->draw(dtime_text);
+
+        if (!this->gameRunning)
+            this->gui->draw();
 
         window->display();
 

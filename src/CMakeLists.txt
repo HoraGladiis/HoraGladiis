@@ -25,6 +25,7 @@ set(TGUI_SHARED_LIBS "FALSE")
 
 # Find SFML shared libraries
 find_package(SFML 2.5.1 COMPONENTS graphics window system REQUIRED)
+find_package(TGUI 0.10 REQUIRED)
 
 FILE(
   GLOB
