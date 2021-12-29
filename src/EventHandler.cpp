@@ -15,6 +15,11 @@ void EventHandler::handleEvent(sf::RenderWindow &window)
 
     while (window.pollEvent(event))
     {
+        if (this->gui)
+        {
+            this->gui->handleEvent(event);
+        }
+
         for (std::function<void(sf::Event)> handler : this->_handlers[event.type])
         {
             handler(event);
